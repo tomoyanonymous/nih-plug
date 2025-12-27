@@ -100,17 +100,29 @@ impl<E: IcedEditor> iced_baseview::Application for IcedEditorWrapperApplication<
         window_subs: &mut WindowSubs<Self::Message>,
     ) -> Subscription<Self::Message> {
         // Since we're wrapping around `E::Message`, we need to do this transformation ourselves
-        let on_frame = window_subs.on_frame.clone();
-        let on_window_will_close = window_subs.on_window_will_close.clone();
         let mut editor_window_subs: WindowSubs<E::Message> = WindowSubs {
-            on_frame: Some(Arc::new(move || {
-                let cb = on_frame.clone();
-                cb.and_then(|cb| cb().and_then(|m| m.into_editor_message()))
-            })),
-            on_window_will_close: Some(Arc::new(move || {
-                let cb = on_window_will_close.clone();
-                cb.and_then(|cb| cb().and_then(|m| m.into_editor_message()))
-            })),
+            on_frame: match window_subs.on_frame.as_ref() {
+                Some(message) => {
+                    let message = message();
+                    Some(Arc::new(move || {
+                        message
+                            .as_ref()
+                            .and_then(|m| m.clone().into_editor_message())
+                    }))
+                }
+                _ => None,
+            },
+            on_window_will_close: match window_subs.on_window_will_close.as_ref() {
+                Some(message) => {
+                    let message = message();
+                    Some(Arc::new(move || {
+                        message
+                            .as_ref()
+                            .and_then(|m| m.clone().into_editor_message())
+                    }))
+                }
+                _ => None,
+            },
         };
 
         let subscription = Subscription::batch([
