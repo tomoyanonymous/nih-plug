@@ -34,7 +34,7 @@ svg = ["iced_baseview/svg"]
 canvas = ["iced_baseview/canvas"]
 
 [dependencies]
-nih_plug = { path = "..", default_features = false }
+nih_plug = { path = "..", default_features = false, features = ["standalone"] }
 nih_plug_assets = { git = "https://github.com/robbert-vdh/nih_plug_assets.git" }
 
 # The currently targeted version of baseview uses a different version of
@@ -42,10 +42,10 @@ nih_plug_assets = { git = "https://github.com/robbert-vdh/nih_plug_assets.git" }
 raw-window-handle = "0.5"
 
 atomic_refcell = "0.1"
-baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "579130ecb4f9f315ae52190af42f0ea46aeaa4a2" }
+baseview = { git = "https://github.com/tomoyanonymous/baseview.git", rev = "d73e0b912c8c0f2989db6338fd5f07ec09ff4dd3" }
 crossbeam = "0.8"
 # This targets iced 0.13
-iced_baseview = { git = "https://github.com/BillyDM/iced_baseview.git", rev = "a0842a8205c852127981e27de6342cf2e665562f", default_features = false }
+iced_baseview = { git = "https://github.com/tomoyanonymous/iced_baseview.git", rev = "5840320e30450f6a270bfa7c37c3e68ff40e0a4c", default_features = false }
 futures-util = "0.3"
 
 # To make the state persistable
