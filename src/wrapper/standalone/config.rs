@@ -24,7 +24,9 @@ pub struct WrapperConfig {
     /// The audio backend's sample rate.
     ///
     /// This setting is ignored when using the JACK backend.
-    #[clap(value_parser, short = 'r', long, default_value = "48000")]
+    /// This setting is highly recommended to set as 44100 because CPAL backends misunderstands the combination of samplerate and buffer sizes.
+    /// See https://github.com/robbert-vdh/nih-plug/issues/147
+    #[clap(value_parser, short = 'r', long, default_value = "44100")]
     pub sample_rate: f32,
     /// The audio backend's period size.
     ///
